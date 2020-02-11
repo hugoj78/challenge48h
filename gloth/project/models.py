@@ -258,4 +258,26 @@ class Molecule(db.Model):
         
     def __str__(self):
         return self.name
-        
+
+class Dosage(db.Model):
+    """
+    """
+    __tablename__ = "dosage"
+    __bind__ = "dosage"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    cis = db.Column(db.Integer, nullable=False)
+    icd_10 = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    form_id = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    cadence = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, cis, icd_10, user_id, form_id, quantity, cadence, duration):
+        self.cis = cis
+        self.icd_10 = icd_10
+        self.user_id = user_id
+        self.form_id = form_id
+        self.quantity = quantity
+        self.cadence = cadence
+        self.duration = duration
