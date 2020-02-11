@@ -64,8 +64,18 @@ def posology():
 def medicaments():
     return render_template("medic.html", name="Ynov")
 
-@app.route('/ordonnance', methods=["GET"])
+@app.route('/leib', methods=["GET"])
 def ordonnance():
     htmlstr = '<h2>Heading 2</h2><p>Sample paragraph.</p>'
     pdfkit.from_string(htmlstr, 'sample.pdf')
-    return render_template("ordonnance.html")
+    return render_template("base.html", name='Ynov')
+
+
+@app.route('/posology', methods=["GET"])
+def adrien():
+    return render_template("posology.html", name='Ynov')
+
+
+@app.route('/traitement_cis', methods=["GET"])
+def adrien3():
+    return render_template("traitement_cis.html", name='Ynov')
