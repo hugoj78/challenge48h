@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block content %}
+<header style="background:#ffffff; color:#2c3e50;">
+    <div class="container" id="maincontent" tabindex="-1">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Rechercher un médicament" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Recherche</button>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Classes</th>
+            <th scope="col">Molécules</th>
+            <th scope="col">Médicaments</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for class in classes %}
+            {% for dict_item in dataMolecules %}
+             {% for  key, value in dict_item.items() %}
+              {% if class[0] == key %}
+              <tr>
+                <td scope="row">{{ class[1] }}</td>
+                
+                <td>{{ value }}</td> 
+                <td>TEST</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</header>
+{% endblock%}

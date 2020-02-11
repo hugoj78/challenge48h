@@ -1,20 +1,14 @@
 import os
 from werkzeug import secure_filename
-from flask import Flask, request, redirect, url_for, render_template, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
-
+from flask import Flask, request, redirect, url_for, render_template, flash
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
 
 from .forms import PatientForm, MedicForm
+from .utils import *
 
-from .models import *
 @app.route("/", methods=["GET", "POST"])
-
 @app.route("/index", methods=["GET", "POST"])
 def index():
     form = PatientForm()
@@ -25,9 +19,18 @@ def index():
             return render_template("index.html", title="Gloth", subtitle="test", patient_form=form, name="Ynov")
         else:
             data = request.args.get(form)
-            return redirect(url_for('select'), data=data)
+            return redirect(url_for('medic'), data=data)
 
     return render_template("index.html", title="Gloth", subtitle="subtitle", patient_form=form, name="Ynov")
+
+
+@app.route('/medic', methods=["GET","POST"])
+def medic():
+
+    form = MedicForm(request.form)
+    patho_id = (request.form.get("pathology"))
+    user_id = (request.form.get("user"))
+    return render_template("medic.html", name="Ynov", pathology=patho_id, user=user_id)
 
 @app.route('/select', methods=["GET", "POST"])
 def select():
@@ -36,12 +39,26 @@ def select():
 
 @app.route('/ordonnance', methods=["GET"])
 def posology():
+    Classe = allClasses()
+    id_classe = allClassesId()
+    #Molecule_id = allMoleculeFilterByClass(id_classe[0])
+    Molecule_name = []
 
-    return render_template("ordonnance.html", name="Ynov")
+    for x in id_classe:
+        dict_class = {}
+        dict_class[x] = allMoleculeFilterByClass(x)
+        Molecule_name.append(dict_class)
+    
+    for w in Molecule_name:
+        for key, value in w.items():
+            print(key, value)
+            names = []
+            for v in value:
+                names.append(allMoleculeFilterByClassName(v))
+            w[key] = names
+    
+    return render_template("ordonnance.html", classes = Classe, dataMolecules = Molecule_name, name="Ynov")
 
 @app.route('/medicaments', methods=["GET"])
 def medicaments():
-
-    return render_template("medicaments.html", name="Ynov")
-
-	
+    return render_template("medic.html", name="Ynov")

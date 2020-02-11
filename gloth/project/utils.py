@@ -1,5 +1,5 @@
 import os
-from .models import Pathology, User
+from .models import *
 
 ### Renvoie la liste de toutes les maladies
 def pathologyChoices():
@@ -33,4 +33,29 @@ def userChoices():
 
     temp = User.query.with_entities(User.id, User.forename).all()
     choices = [(x[0], x[1]) for x in temp]
+    return choices
+
+
+#renvoie la liste des classes
+def allClasses():
+    temp = TreatementClass.query.with_entities(Classes.id, Classes.name).all()
+    choices = [( x[0], x[1] ) for x in temp]
+    return choices
+
+#renvoie la liste des classes id
+def allClassesId():
+    temp = TreatementClass.query.with_entities(Classes.id, Classes.name).all()
+    choices = [(x[0]) for x in temp]
+    return choices
+
+#Renvoie liste molecules selon les classes
+def allMoleculeFilterByClass(id):
+    temp = Classes_families.query.with_entities(Classes_families.molecule_id).filter_by(class_id= id)
+    choices = [(x[0]) for x in temp]
+    return choices
+
+#Renvoie liste molecules selon les classes
+def allMoleculeFilterByClassName(id):
+    temp = Molecule.query.with_entities(Molecule.name).filter_by(id = id)
+    choices = [(x[0]) for x in temp]
     return choices

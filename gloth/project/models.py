@@ -138,3 +138,124 @@ class User(db.Model):
 
     def __repr__(self):
         return "<User(forename=%s, name=%s, rpps=%d, email=%s)>" %(self.forename, self.name, self.rpps,self.email)
+
+class TraitementCIS(db.Model):
+    __tablename__="treatement_cis"
+    __bind__="treatement_cis"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    icd_10 = db.Column(db.Integer(), db.ForeignKey('pathology.icd_10', ondelete='CASCADE'), nullable=False)
+    pathology_name = db.Column(db.String(50), nullable=False)
+    cis = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, icd_10, pathology_name, cis):
+        self.icd_10 = icd_10
+        self.pathology_name = pathology_name
+        self.cis = cis 
+    
+    def __repr__(self):
+        return "<Treatement_cis(icd10=%d, pathology_name=%s, cis=%d)>" %(self.icd_10, self.pathology_name, self.cis)
+    
+    def __str__(self):
+        return self.pathology_name
+
+class TreatementClass(db.Model):
+    __tablename__="treatement_class"
+    __bind__="treatement_class"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    icd_10 = db.Column(db.Integer(), db.ForeignKey('pathology.icd_10', ondelete='CASCADE'), nullable=False)
+    pathology_name = db.Column(db.String(50), nullable=False)
+    class_id = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, icd_10, pathology_name, class_id):
+        self.icd_10 = icd_10
+        self.pathology_name = pathology_name
+        self.class_id = class_id 
+    
+    def __repr__(self):
+        return "<Treatement_Class(icd10=%d, pathology_name=%s, class_id=%d)>" %(self.icd_10, self.pathology_name, self.class_id)
+    
+    def __str__(self):
+        return self.pathology_name
+
+class TraitementMolecule(db.Model):
+    __tablename__="treatement_molecule"
+    __bind__="treatement_molecule"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    icd_10 = db.Column(db.Integer(), db.ForeignKey('pathology.icd_10', ondelete='CASCADE'), nullable=False)
+    pathology_name = db.Column(db.String(50), nullable=False)
+    molecule_id = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, icd_10, pathology_name, molecule_id):
+        self.icd_10 = icd_10
+        self.pathology_name = pathology_name
+        self.molecule_id = molecule_id 
+    
+    def __repr__(self):
+        return "<Treatement_molecule(icd10=%d, pathology_name=%s, molecule_id=%d)>" %(self.icd_10, self.pathology_name, self.molecule_id)
+    
+    def __str__(self):
+        return self.pathology_name
+
+
+class Classes(db.Model):
+    __tablename__="classes"
+    __bind__="classes"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __init__(self, name):
+        self.name = name
+    
+    def __repr__(self):
+        return "<Classes(name=%s)>" %(self.name)
+    
+    def __str__(self):
+        return self.name
+
+class Classes_families(db.Model):
+    __tablename__="classes_families"
+    __bind__="classes_families"
+
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    molecule_id = db.Column(db.Integer)
+    class_id = db.Column(db.Integer)
+    family_name = db.Column(db.String(50))
+    atc = db.Column(db.String(50))
+
+    def __init__(self, molecule_id, class_id, family_name, atc):
+        self.molecule_id = molecule_id
+        self.class_id = class_id
+        self.family_name = family_name 
+        self.atc = atc
+
+    
+    def __repr__(self):
+        return "<Classes_families(molecule_id=%d, class_id=%d, family_name=%s, atc=%s)>" %(self.molecule_id, self.class_id, self.family_name, self.atc)
+    
+    def __str__(self):
+        return self.family_name
+
+class Molecule(db.Model):
+    __tablename__= "molecules"
+    __bind__= "molecules"
+    
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String)
+    rcp = db.Column(db.String)
+    rcp_sum = db.Column(db.String)
+    
+    def __init__(self, name, rcp, rcp_sum):
+        self.name = name
+        self.rcp = rcp
+        self.rcp_sum = rcp_sum
+        
+    def __repr__(self):
+        return "<Molecule(name=%s, rcp=%s, rcp_sum=%s)>" % (self.name, self.rcp, self.rcp_sum)
+        
+    def __str__(self):
+        return self.name
+        
