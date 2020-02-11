@@ -10,12 +10,14 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+    && apk add postgresql-dev gcc python3-dev musl-dev wkhtmltopdf
 
 # install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install pdfcrowd
+RUN pip install pdfkit
 
 # copy project
 COPY . /usr/src/app/

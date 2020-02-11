@@ -1,6 +1,7 @@
 import os
 from werkzeug import secure_filename
 from flask import Flask, request, redirect, url_for, render_template, flash
+import pdfkit
 
 app = Flask(__name__)
 app.config.from_object("project.config.Config")
@@ -62,3 +63,9 @@ def posology():
 @app.route('/medicaments', methods=["GET"])
 def medicaments():
     return render_template("medic.html", name="Ynov")
+
+@app.route('/ordonnance', methods=["GET"])
+def ordonnance():
+    htmlstr = '<h2>Heading 2</h2><p>Sample paragraph.</p>'
+    pdfkit.from_string(htmlstr, 'sample.pdf')
+    return render_template("ordonnance.html")
